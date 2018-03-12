@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>RPS</title>
+
+    <link rel="icon" href="assets/images/rps.png">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <link href='https://fonts.googleapis.com/css?family=Play' rel='stylesheet'>
+
+    <link href='https://fonts.googleapis.com/css?family=Comfortaa' rel='stylesheet'>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"> </script>
+
+    <script src="assets/javascript/game.js"></script>
+
+
+</head>
+
+<body>
+    <!-- <div id="game">
+                <p>Press r, p or s to start playing!</p>
+              </div> -->
+
+    <div class="row">
+        <div class="col-md-12" id="header">
+            <div id="title">
+                <h1>Rock, Paper, Scissors!</h1>
+                <br>
+                <h2>- multiplayer game -</h2>
+                <br>
+                <div id="user-input">
+                    <form role="form">
+                        <div class="form-group">
+                            <label for="name-input">Enter Your Name to Join:</label>
+                            <input class="form-input" id="name-input" type="text">
+                            <button class="btn btn-default" id="add-player" type="submit">Go!</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div id="which-player" class="current-info">
+            </div>
+            <div id="whose-turn" class="current-info">
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4" id="game-left">
+            <div id="p1" class="game-boxes">
+                <div id="player1">
+                    <p id="waiting1">Waiting for Player</p>
+                </div>
+                <button id="rock" class="rps">Rock</button>
+                <br>
+                <button id="paper" class="rps">Paper</button>
+                <br>
+                <button id="scissors" class="rps">Scissors</button>
+                <div id="wins">
+                </div>
+                <div id="losses">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4" id="game-center">
+            <div id="game-message" class="game-boxes">
+            </div>
+
+        </div>
+        <div class="col-md-4" id="game-right">
+            <div id="p2" class="game-boxes">
+                <div id="player2">
+                </div>
+                <p id="waiting2">Waiting for Player</p>
+                <button id="rock2" class="rps">Rock</button>
+                <br>
+                <button id="paper2" class="rps">Paper</button>
+                <br>
+                <button id="scissors2" class="rps">Scissors</button>
+                <div id="2wins">
+                </div>
+                <div id="2losses">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+
+</html>

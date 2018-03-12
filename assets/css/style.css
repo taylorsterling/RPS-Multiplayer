@@ -1,0 +1,52 @@
+body {
+    background-image: url("../images/dark_wood.png");
+    color: white;
+}
+#title {
+    text-align: center;
+    margin: 5px;
+}
+.game-boxes {
+    text-align: center;
+    color: white;
+    border: 2px;
+    border-style: solid;
+    border-color: aqua;
+    padding: 5px;
+    width: 40%;
+    margin-left: 30%;
+}
+
+h1 {
+    font-family: Comfortaa;
+    font-size: 50px;
+}
+h2 {
+    font-size: 20px;
+    color: white;
+    font-family: Comfortaa;
+}
+#add-player {
+    padding: 2px;
+    background-color:none;
+    font-family: Play;
+}
+#name-input {
+    background: none;
+    color: white;
+    border-color: aqua;
+}
+label {
+    font-family: Play;
+    color: white;
+}
+.rps {
+    background: none;
+    color: white;
+    border: none;
+}
+.current-info {
+    color: white;
+    font-size: 16px;
+    text-align: center;
+}
