@@ -116,74 +116,58 @@ function calcWinner() {
     });
     var p1Choice = players[1].choice;
     var p2Choice = players[2].choice;
+    var winner;
 
     if ((p1Choice === "Rock") && (p2Choice === "Scissors")) {
-        database.ref('players/1').update({
-            wins: players[1].wins + 1,
-        });
-        database.ref('players/2').update({
-            losses: players[2].losses + 1,
-        });
-        $("#wins").html(player[1].wins);
-        $("#2losses").html(player[2].losses);
+        winner = 1;
+
+
 
     } else if ((p1Choice === "Rock") && (p2Choice === "Paper")) {
-        database.ref('players/1').update({
-            losses: players[1].losses + 1,
-        });
-        database.ref('players/2').update({
-            wins: players[2].wins + 1,
-        });
-        $("#losses").html(player[1].losses);
-        $("#2wins").html(player[2].wins);
+        winner = 2;
 
     } else if ((p1Choice === "Scissors") && (p2Choice === "Rock")) {
-        database.ref('players/1').update({
-            losses: players[1].losses + 1,
-        });
-        database.ref('players/2').update({
-            wins: players[2].wins + 1,
-        });
-        $("#losses").html(player[1].losses);
-        $("#2wins").html(player[2].wins);
+        winner = 2;
 
     } else if ((p1Choice === "Scissors") && (p2Choice === "Paper")) {
-        database.ref('players/1').update({
-            wins: players[1].wins + 1,
-        });
-        database.ref('players/2').update({
-            losses: players[2].losses + 1,
-        });
-        $("#wins").html(player[1].wins);
-        $("#2losses").html(player[2].losses);
+        winner = 1;
 
     } else if ((p1Choice === "Paper") && (p2Choice === "Rock")) {
-        database.ref('players/1').update({
-            wins: players[1].wins + 1,
-        });
-        database.ref('players/2').update({
-            losses: players[2].losses + 1,
-        });
-        $("#wins").html(player[1].wins);
-        $("#2losses").html(player[2].losses);
+        winner = 1;
 
     } else if ((p1Choice === "Paper") && (p2Choice === "Scissors")) {
-        database.ref('players/1').update({
-            losses: players[1].losses + 1,
-        });
-        database.ref('players/2').update({
-            wins: players[2].wins + 1,
-        });
-        $("#losses").html(player[1].losses);
-        $("#2wins").html(player[2].wins);
+        winner = 2;
 
     } else if (userGuess === computerGuess) {
+
+        winner = 0;
         database.ref('players/1').update({
             ties: players[1].ties + 1,
         });
         database.ref('players/2').update({
             ties: players[2].ties + 1,
         });
+    }
+
+    if (winner === 1) {
+        database.ref('players/1').update({
+            wins: players[1].wins + 1,
+        });
+        database.ref('players/2').update({
+            losses: players[2].losses + 1,
+        });
+        $("#wins").html(players[1].wins + 1);
+        $("#2losses").html(players[2].losses + 1);
+
+    } else if (winner === 2) {
+        database.ref('players/2').update({
+            wins: players[2].wins + 1,
+        });
+        database.ref('players/1').update({
+            losses: players[1].losses + 1,
+        });
+        $("#wins").html(players[2].wins + 1);
+        $("#2losses").html(players[1].losses + 1);
     }
 }
 
