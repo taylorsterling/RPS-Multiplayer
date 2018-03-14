@@ -20,6 +20,8 @@ $(document).ready(function () {
         updatePlayer();
     });
 
+    $("#current-message").html("Welcome!");
+
     var playersRef = database.ref('players/');
     playersRef.remove()
     playersRef.on('value', function (snapshot) {
@@ -28,24 +30,25 @@ $(document).ready(function () {
 
     var turnRef = database.ref('turn');
     turnRef.remove()
+
+    addClickEventsToButtons();
+    displayWinsLossses();
+
+    // do this everytime turn changes, this controls the flow of game
     turnRef.on('value', function (snapshot) {
         var turn = snapshot.val();
         if (turn == 1) {
             $("#p1").css("border-color", "deeppink");
             $("#p2").css("border-color", "aqua");
+            
+            database.ref('players/2/name').once('value', function (snapshot) {
+                $("#current-message").html("Waiting for " + snapshot.val());
+            });
+
             if (whichPlayer == 1) {
                 $("#rock").show();
                 $("#paper").show();
                 $("#scissors").show();
-                $("#rock").on("click", function (e) {
-                    choicePicked("Rock");
-                });
-                $("#paper").on("click", function (e) {
-                    choicePicked("Paper");
-                });
-                $("#scissors").on("click", function (e) {
-                    choicePicked("Scissors");
-                });
                 $("#rock2").hide();
                 $("#paper2").hide();
                 $("#scissors2").hide();
@@ -61,23 +64,13 @@ $(document).ready(function () {
         else if (turn == 2) {
             $("#p2").css("border-color", "deeppink");
             $("#p1").css("border-color", "aqua");
+            database.ref('players/2/name').once('value', function (snapshot) {
+                $("#current-message").html("Waiting for " + snapshot.val());
+            });
             if (whichPlayer == 2) {
                 $("#rock2").show();
                 $("#paper2").show();
                 $("#scissors2").show();
-                $("#rock2").on("click", function (e) {
-                    choicePicked("Rock");
-                    calcWinner()
-                });
-                $("#paper2").on("click", function (e) {
-                    choicePicked("Paper");
-                    calcWinner()
-
-                });
-                $("#scissors2").on("click", function (e) {
-                    choicePicked("Scissors");
-                    calcWinner()
-                });
                 $("#rock").hide();
                 $("#paper").hide();
                 $("#scissors").hide();
@@ -92,6 +85,30 @@ $(document).ready(function () {
         };
     });
 });
+
+function addClickEventsToButtons() {
+    $("#rock").on("click", function (e) {
+        choicePicked("Rock");
+    });
+    $("#paper").on("click", function (e) {
+        choicePicked("Paper");
+    });
+    $("#scissors").on("click", function (e) {
+        choicePicked("Scissors");
+    });
+    $("#rock2").on("click", function (e) {
+        choicePicked("Rock");
+        calcWinner();
+    });
+    $("#paper2").on("click", function (e) {
+        choicePicked("Paper");
+        calcWinner();
+    });
+    $("#scissors2").on("click", function (e) {
+        choicePicked("Scissors");
+        calcWinner();
+    });
+}
 
 function choicePicked(choice) {
     database.ref("players/" + whichPlayer).update({
@@ -120,8 +137,6 @@ function calcWinner() {
 
     if ((p1Choice === "Rock") && (p2Choice === "Scissors")) {
         winner = 1;
-
-
 
     } else if ((p1Choice === "Rock") && (p2Choice === "Paper")) {
         winner = 2;
@@ -156,8 +171,6 @@ function calcWinner() {
         database.ref('players/2').update({
             losses: players[2].losses + 1,
         });
-        $("#wins").html(players[1].wins + 1);
-        $("#2losses").html(players[2].losses + 1);
 
     } else if (winner === 2) {
         database.ref('players/2').update({
@@ -166,19 +179,44 @@ function calcWinner() {
         database.ref('players/1').update({
             losses: players[1].losses + 1,
         });
-        $("#wins").html(players[2].wins + 1);
-        $("#2losses").html(players[1].losses + 1);
+
     }
+
+    $("#current-message").html("Winner: " + players[winner].name);
+    setTimeout(nextRound, 4000);
 }
 
 function nextRound() {
-    database.ref("players/1").update({
-        choice: "",
-    });
-    database.ref("players/2").update({
-        choice: "",
-    });
+    database.ref().update({
+        turn: 1,
+    })
 };
+
+function displayWinsLossses() {
+    database.ref('players/1/wins').on('value', function (snapshot) {
+        if (snapshot.val() != null) {
+            $("#wins").html("Wins: " + snapshot.val());
+        }
+    });
+
+    database.ref('players/1/losses').on('value', function (snapshot) {
+        if (snapshot.val() != null) {
+            $("#losses").html("Losses: " + snapshot.val());
+        }
+    });
+
+    database.ref('players/2/wins').on('value', function (snapshot) {
+        if (snapshot.val() != null) {
+            $("#2wins").html("Wins: " + snapshot.val());
+        }
+    });
+
+    database.ref('players/2/losses').on('value', function (snapshot) {
+        if (snapshot.val() != null) {
+            $("#2losses").html("Losses: " + snapshot.val());
+        }
+    });
+}
 
 function updatePlayer(players) {
     if (players != null) {
@@ -224,50 +262,3 @@ function createPlayer(name) {
     $("#user-input").remove();
     $("#which-player").html("You are Player " + whichPlayer);
 }
-
-
-//   var computerChoices = ["r", "p", "s"];
-
-
-  // This function is run whenever the user presses a key.
-//   document.onkeyup = function(event) {
-
-//     // Determines which key was pressed.
-//     var userGuess = event.key;
-
-//     // Randomly chooses a choice from the options array. This is the Computer's guess.
-//     var computerGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
-
-//     // Reworked our code from last step to use "else if" instead of lots of if statements.
-
-//     // This logic determines the outcome of the game (win/loss/tie), and increments the appropriate number
-//     if ((userGuess === "r") || (userGuess === "p") || (userGuess === "s")) {
-
-//       if ((userGuess === "r") && (computerGuess === "s")) {
-//         wins++;
-//       } else if ((userGuess === "r") && (computerGuess === "p")) {
-//         losses++;
-//       } else if ((userGuess === "s") && (computerGuess === "r")) {
-//         losses++;
-//       } else if ((userGuess === "s") && (computerGuess === "p")) {
-//         wins++;
-//       } else if ((userGuess === "p") && (computerGuess === "r")) {
-//         wins++;
-//       } else if ((userGuess === "p") && (computerGuess === "s")) {
-//         losses++;
-//       } else if (userGuess === computerGuess) {
-//         ties++;
-//       }
-
-//       // Creating a variable to hold our new HTML. Our HTML now keeps track of the user and computer guesses, and wins/losses/ties.
-//       var html =
-//         "<p>You chose: " + userGuess + "</p>" +
-//         "<p>The computer chose: " + computerGuess + "</p>" +
-//         "<p>wins: " + wins + "</p>" +
-//         "<p>losses: " + losses + "</p>" +
-//         "<p>ties: " + ties + "</p>";
-
-//       // Set the inner HTML contents of the #game div to our html string
-//       document.querySelector("#game").innerHTML = html;
-//     }
-//   };
