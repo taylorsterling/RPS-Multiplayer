@@ -52,3 +52,11 @@ label {
     font-size: 16px;
     text-align: center;
 }
+
+#inputForm {
+    background: transparent;
+    border-color: aqua;
+    margin-top: 5%;
+    margin-left: 20%;
+    margin-bottom: 5%;
+}
