@@ -42,7 +42,7 @@ $(document).ready(function () {
             $("#p2").css("border-color", "aqua");
             
             database.ref('players/2/name').once('value', function (snapshot) {
-                $("#current-message").html("Waiting for " + players[1]);
+                $("#current-message").html("Waiting for " + players[2]);
             });
 
             if (whichPlayer == 1) {
@@ -65,7 +65,7 @@ $(document).ready(function () {
             $("#p2").css("border-color", "deeppink");
             $("#p1").css("border-color", "aqua");
             database.ref('players/2/name').once('value', function (snapshot) {
-                $("#current-message").html("Waiting for " + players[2]);
+                $("#current-message").html("Waiting for " + players[1]);
             });
             if (whichPlayer == 2) {
                 $("#rock2").show();
